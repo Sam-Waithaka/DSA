@@ -14,6 +14,18 @@ Steps:
 8. Merge the two sorted halves and return the result.
 */
 
+function mergeSort(numbers){
+    if (numbers.length <= 1) return numbers
+
+    const mid = Math.floor(numbers.length / 2)
+    const leftHalf = numbers.slice(0, mid)
+    const rightHalf = numbers.slice(mid)
+    const sortedLeft = mergeSort(leftHalf)
+    const sortedRight = mergeSort(rightHalf)
+
+    return merge(sortedLeft, sortedRight)
+}
+
 /*
 Algorithm: Merge Two Sorted Arrays
 Input: two sorted arrays of numbers, left and right
@@ -33,3 +45,34 @@ Steps:
 11. After the loop is over, add whatever is left in either halves to the result.
 12. Return the result array.
 */
+
+function merge(leftHalf, rightHalf){
+    const result = []
+    let leftPointer = 0
+    let rightPointer = 0
+
+    while (leftPointer < leftHalf.length && rightPointer < rightHalf.length){
+        if(leftHalf[leftPointer] < rightHalf[rightPointer]){
+            result.push(leftHalf[leftPointer])
+            leftPointer++
+        } else {
+            result.push(rightHalf[rightPointer])
+            rightPointer++
+        }
+    }
+
+    while(leftPointer < leftHalf.length){
+        result.push(leftHalf[leftPointer])
+        leftPointer++
+    }
+
+    while(rightPointer < rightHalf.length){
+        result.push(rightHalf[rightPointer])
+        rightPointer++
+    }
+
+    return result
+}
+
+const numbers = [8, 1, 4, 3, 6, 2, 7, 5]
+console.log(mergeSort(numbers))
